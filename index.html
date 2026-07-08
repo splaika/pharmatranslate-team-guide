@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>PharmaTranslate チーム向けガイド — 何を作るのか / 次に何をするのか</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --fg:#1a1d23; --muted:#5f6368; --accent:#418AB3;
+    --violet:#7c3aed; --card:#ffffff; --line:#dfe3e8;
+    --eng1:#0b8043; --eng2:#b05a00; --dir:#7c3aed;
+    --radius:14px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0f1115; --fg:#e8eaed; --muted:#9aa0a6; --card:#1a1d23; --line:#2c313a;
+           --eng1:#4cbf7e; --eng2:#f0a24b; --dir:#a78bfa; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+    font-family:system-ui,"Segoe UI","Hiragino Kaku Gothic ProN",sans-serif;line-height:1.85}
+  .wrap{max-width:860px;margin:0 auto;padding:clamp(20px,5vw,52px)}
+  h1{font-size:clamp(1.5rem,4.5vw,2.3rem);line-height:1.3;margin:0 0 .4em}
+  h2{font-size:clamp(1.1rem,3vw,1.4rem);margin:2.4em 0 .6em;padding-left:.6em;border-left:4px solid var(--accent)}
+  .lead{color:var(--muted);font-size:1.05rem;max-width:44em}
+  .kicker{color:var(--accent);font-weight:700;letter-spacing:.12em;font-size:.78rem;text-transform:uppercase}
+  .three{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px 24px;margin:24px 0;font-size:1.05rem}
+  .three ol{margin:.4em 0 0;padding-left:1.4em}
+  .three li{margin:.35em 0}
+  .svgwrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:14px;margin:20px 0}
+  .svgwrap svg{min-width:700px;width:100%;height:auto;display:block}
+  dl.dict{margin:14px 0}
+  dl.dict dt{font-weight:700;margin-top:1em}
+  dl.dict dt .en{font-weight:400;color:var(--muted);font-size:.85rem;margin-left:.5em}
+  dl.dict dd{margin:.15em 0 0;color:var(--muted)}
+  .who{display:inline-block;padding:1px 10px;border-radius:99px;font-size:.75rem;font-weight:800;
+    color:#fff;white-space:nowrap;vertical-align:middle}
+  .who.e1{background:var(--eng1)} .who.e2{background:var(--eng2)} .who.dir{background:var(--dir)}
+  .task{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px 20px;margin:14px 0}
+  .task.now{border-color:var(--violet);box-shadow:0 0 0 1px var(--violet)}
+  .task h3{margin:0 0 .3em;font-size:1.05rem}
+  .task .meta{font-size:.82rem;color:var(--muted);margin-bottom:.5em}
+  .task ul.actions{list-style:none;padding:0;margin:.4em 0 0}
+  .task ul.actions li{position:relative;padding-left:1.9em;margin:.4em 0;font-size:.95rem}
+  .task ul.actions li::before{content:"";position:absolute;left:2px;top:.42em;width:.85em;height:.85em;
+    border:2px solid var(--accent);border-radius:4px}
+  .task .done{margin-top:.7em;padding:.5em .9em;background:color-mix(in srgb,var(--accent) 9%,transparent);
+    border-radius:8px;font-size:.88rem}
+  .task .done b{color:var(--accent)}
+  .callout{border-left:4px solid var(--violet);background:var(--card);
+    border-radius:0 var(--radius) var(--radius) 0;padding:14px 18px;margin:20px 0;font-size:.95rem}
+  table{width:100%;border-collapse:collapse;font-size:.92rem;margin:14px 0}
+  th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:.82rem;white-space:nowrap}
+  .tablewrap{overflow-x:auto}
+  .qa dt{font-weight:700;margin-top:1.1em}
+  .qa dd{margin:.25em 0 0;color:var(--muted)}
+  .grid4{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin:16px 0}
+  .grid4 .cell{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px}
+  .grid4 .cell b{display:block;margin-bottom:.2em}
+  .grid4 .cell p{margin:0;font-size:.86rem;color:var(--muted)}
+  .ladder{list-style:none;padding:0;margin:16px 0;counter-reset:l}
+  .ladder li{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:12px 16px 12px 56px;margin:8px 0;font-size:.95rem}
+  .ladder li::before{counter-increment:l;content:counter(l);position:absolute;left:14px;top:12px;
+    width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-weight:800;
+    display:flex;align-items:center;justify-content:center;font-size:.85rem}
+  .ladder li .stop{color:var(--accent);font-weight:700}
+  footer{color:var(--muted);font-size:.84rem;margin-top:56px;border-top:1px solid var(--line);padding-top:18px}
+  footer code{background:var(--card);border:1px solid var(--line);padding:1px 6px;border-radius:6px;font-size:.8rem}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <header>
+    <div class="kicker">PharmaTranslate — チーム向けガイド</div>
+    <h1>私たちが作っているもの、<br>そして次にやること</h1>
+    <p class="lead">
+      このページは社内メンバー向けの解説です。前提知識なしで読めるように書いています。
+      前半で「何を作っているのか」を、後半で「誰が・何を・どこまでやったら完了か」を説明します。
+    </p>
+  </header>
+
+  <!-- ============ 3行でわかる ============ -->
+  <div class="three">
+    <b>3行でわかる、このプロジェクト</b>
+    <ol>
+      <li>製薬の文書 (治験実施計画書や報告書) を英⇄日で翻訳する<b>社内プラットフォーム</b>を Azure 上に作っています。</li>
+      <li>ただ翻訳するのではなく、<b>用語集で誤訳を防ぎ、AI の校閲役がチェックし、最後は必ず人が承認する</b>仕組みです。</li>
+      <li>使うほど用語集と検証記録が育ち、それ自体が会社の資産になります。将来はこの「仕組みの作り方」をお客様に提供します。</li>
+    </ol>
+  </div>
+
+  <!-- ============ 仕組みの絵 ============ -->
+  <h2>仕組みを1枚の絵で</h2>
+  <p>流れは5段。<b>紫の「人の承認」がこの仕組みの要</b>です — AI は下書きと検査までで、確定するのは常に人。
+     そして承認された訳語は用語集に還流して、次の翻訳がまた少し賢くなります (点線の矢印)。</p>
+
+  <div class="svgwrap" role="img" aria-label="翻訳パイプラインの5段: 原文→機械翻訳(用語集適用)→AIの校閲→人の承認→確定訳。承認結果は用語集へ還流">
+  <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif">
+    <defs>
+      <marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+        <path d="M0 0 L8 4 L0 8 z" fill="var(--muted)"/>
+      </marker>
+    </defs>
+    <!-- main flow -->
+    <g font-size="13" font-weight="700" text-anchor="middle">
+      <rect x="20" y="90" width="110" height="70" rx="12" fill="var(--card)" stroke="var(--line)" stroke-width="2"/>
+      <text x="75" y="120" fill="var(--fg)">原文</text>
+      <text x="75" y="140" font-size="10" font-weight="400" fill="var(--muted)">英語の治験文書</text>
+
+      <rect x="170" y="90" width="140" height="70" rx="12" fill="var(--card)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="240" y="114" fill="var(--fg)">機械翻訳</text>
+      <text x="240" y="132" font-size="10" font-weight="400" fill="var(--muted)">Azure Translator</text>
+      <text x="240" y="147" font-size="10" font-weight="400" fill="var(--accent)">+ 用語集で誤訳を防ぐ</text>
+
+      <rect x="350" y="90" width="140" height="70" rx="12" fill="var(--card)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="420" y="114" fill="var(--fg)">AI の校閲</text>
+      <text x="420" y="132" font-size="10" font-weight="400" fill="var(--muted)">用語・文体・書式・規制の</text>
+      <text x="420" y="147" font-size="10" font-weight="400" fill="var(--muted)">4人の校閲役が指摘を出す</text>
+
+      <rect x="530" y="86" width="130" height="78" rx="12" fill="var(--card)" stroke="var(--violet)" stroke-width="3"/>
+      <text x="595" y="112" fill="var(--violet)">人の承認</text>
+      <text x="595" y="130" font-size="10" font-weight="400" fill="var(--muted)">指摘を見て人が判断</text>
+      <text x="595" y="145" font-size="10" font-weight="400" fill="var(--muted)">ここまでは全部「下書き」</text>
+
+      <rect x="690" y="90" width="96" height="70" rx="12" fill="var(--card)" stroke="var(--line)" stroke-width="2"/>
+      <text x="738" y="120" fill="var(--fg)">確定訳</text>
+      <text x="738" y="140" font-size="10" font-weight="400" fill="var(--muted)">記録付きで納品</text>
+    </g>
+    <g stroke="var(--muted)" stroke-width="2" fill="none" marker-end="url(#ar)">
+      <line x1="130" y1="125" x2="164" y2="125"/>
+      <line x1="310" y1="125" x2="344" y2="125"/>
+      <line x1="490" y1="125" x2="524" y2="125"/>
+      <line x1="660" y1="125" x2="684" y2="125"/>
+    </g>
+    <!-- flywheel return -->
+    <path d="M595 164 L595 225 Q595 240 580 240 L255 240 Q240 240 240 225 L240 164"
+          stroke="var(--accent)" stroke-width="2" stroke-dasharray="6 5" fill="none" marker-end="url(#ar)"/>
+    <text x="418" y="232" font-size="11" fill="var(--accent)" text-anchor="middle" font-weight="700">承認された訳語が用語集に還流 → 次の翻訳が賢くなる</text>
+    <text x="418" y="262" font-size="10" fill="var(--muted)" text-anchor="middle">(勝手には増えません — 用語集に入れるのも人の承認が必要)</text>
+  </svg>
+  </div>
+
+  <!-- ============ 用語ミニ辞典 ============ -->
+  <h2>用語ミニ辞典 — これだけ知っていれば会話に入れます</h2>
+  <dl class="dict">
+    <dt>ハーネス<span class="en">harness</span></dt>
+    <dd>AI モデルの<b>外側にある仕組み全部</b>のこと — 用語集、チェック、承認の流れ、記録。
+        馬車でいう馬 (モデル) につける馬具 (ハーネス) で、暴れないよう制御して仕事に使えるようにする側。
+        「モデルは買えるが、ハーネスは設計するしかない」— ここが私たちの提供価値です。</dd>
+    <dt>用語集<span class="en">glossary</span></dt>
+    <dd>「この英語は必ずこの日本語に訳す」という対訳リスト。翻訳エンジンに渡す<b>カンニングペーパー</b>です。
+        実測で、これを渡すだけで致命的な誤訳 (例: estimand →「評価額」) がほぼ消えることが分かっています。</dd>
+    <dt>クリティック<span class="en">critic</span></dt>
+    <dd>訳文をチェックする<b>校閲役の AI</b>。翻訳する AI と校閲する AI を分けるのがポイントで、
+        製薬の品質管理が昔からやってきた「実行する人と検証する人を分ける」原則と同じ考え方です。
+        用語・文体・書式・規制整合の4人に分業させます。</dd>
+    <dt>HITL<span class="en">Human-in-the-Loop</span></dt>
+    <dd>最終判断は必ず人間が行う、という設計原則。私たちの製品では「人の確認はコストではなく<b>品質の保証書</b>」と位置づけています。
+        承認前の訳文はすべて DRAFT (下書き) 扱いです。</dd>
+    <dt>MQM スコア</dt>
+    <dd>翻訳品質の<b>健康診断の点数</b> (100点満点)。現状のベースラインは 73 点で、最大の弱点は専門用語 (65点)。
+        改善がこの数字で見えるようにします。</dd>
+    <dt>known-error DB<span class="en">既知誤りデータベース</span></dt>
+    <dd>「機械翻訳が製薬文書でやらかす誤訳」のコレクション。現在7件 (estimand→評価額 など)。
+        校閲 AI のテスト問題であり、将来はマーケティング素材にもなります。見つけたら必ず記録してください。</dd>
+    <dt>Azure AI Foundry</dt>
+    <dd>Microsoft の AI 開発基盤。翻訳・AI エージェント・検索などが1つのリソースでまとめて使えます。
+        すでに Day 1-2 で翻訳の成功まで確認済みです。</dd>
+    <dt>det / judg<span class="en">決定論と判断の分離</span></dt>
+    <dd>ルールで白黒つくもの (用語の照合、正規表現チェック) は<b>プログラムで全件確実に</b>、
+        文脈の判断が要るもの (この訳し分けは妥当か) だけを <b>AI に</b>任せる、という配置の原則。
+        「AI に任せすぎない」ための背骨です。</dd>
+  </dl>
+
+  <!-- ============ ハーネスをレイヤーで見る ============ -->
+  <h2>ハーネスをレイヤーで見る — Foundry の何で作るのか</h2>
+  <p>さっきの絵は「文書の流れ」でした。同じ仕組みを今度は<b>積み木 (レイヤー)</b> として見ます。
+     文書は下の層から上の層へ持ち上がっていき、一番上の「人の承認」で確定します。
+     各層の右側に、<b>Azure AI Foundry のどの部品で作るか</b>と、担当モジュール (M番号) を書いてあります。</p>
+
+  <div class="svgwrap" role="img" aria-label="ハーネスの7層スタック。下から基盤、翻訳エンジン、用語・知識、機械チェック、AI校閲、集約、人の承認。各層にFoundryの実体とM番号を注記">
+  <svg viewBox="0 0 800 470" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif">
+    <defs>
+      <marker id="up" markerWidth="8" markerHeight="8" refX="4" refY="1" orient="auto">
+        <path d="M0 8 L4 0 L8 8 z" fill="var(--accent)"/>
+      </marker>
+    </defs>
+    <!-- flow arrow (bottom to top) -->
+    <line x1="34" y1="432" x2="34" y2="38" stroke="var(--accent)" stroke-width="2.5" marker-end="url(#up)"/>
+    <text x="22" y="240" font-size="11" fill="var(--accent)" font-weight="700" transform="rotate(-90 22 240)" text-anchor="middle">文書はここを下から上へ</text>
+
+    <!-- layers, top to bottom -->
+    <g font-size="13">
+      <!-- L7 HITL -->
+      <rect x="58" y="20" width="450" height="50" rx="10" fill="var(--card)" stroke="var(--violet)" stroke-width="3"/>
+      <text x="74" y="41" font-weight="800" fill="var(--violet)">人の承認 (HITL)</text>
+      <text x="74" y="59" font-size="11" fill="var(--muted)">指摘を見て人が確定する。ここまで全部「下書き」</text>
+      <text x="524" y="41" font-size="11" fill="var(--fg)" font-weight="700">承認 UI + 追記専用の監査ログ</text>
+      <text x="524" y="58" font-size="11" fill="var(--muted)">M5 / 承認された対訳は用語集へ還流</text>
+
+      <!-- L6 集約 -->
+      <rect x="58" y="80" width="450" height="50" rx="10" fill="var(--card)" stroke="var(--line)" stroke-width="2"/>
+      <text x="74" y="101" font-weight="800" fill="var(--fg)">集約ゲート</text>
+      <text x="74" y="119" font-size="11" fill="var(--muted)">4人の指摘をまとめ、通す / 直す / 人に回す を判定</text>
+      <text x="524" y="101" font-size="11" fill="var(--fg)" font-weight="700">FastAPI のコード (AI にしない)</text>
+      <text x="524" y="118" font-size="11" fill="var(--muted)">M5 / Container Apps で動かす</text>
+
+      <!-- L5 AI校閲 -->
+      <rect x="58" y="140" width="450" height="50" rx="10" fill="var(--card)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="74" y="161" font-weight="800" fill="var(--fg)">AI 校閲 (judg = 判断)</text>
+      <text x="74" y="179" font-size="11" fill="var(--muted)">文脈の判断が要る指摘だけ AI が担当 — 4人で分業</text>
+      <text x="524" y="161" font-size="11" fill="var(--fg)" font-weight="700">Foundry Agent Service + file search</text>
+      <text x="524" y="178" font-size="11" fill="var(--muted)">M4 / モデルは GPT-5 等 (Japan East)</text>
+
+      <!-- L4 機械チェック -->
+      <rect x="58" y="200" width="450" height="50" rx="10" fill="var(--card)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="74" y="221" font-weight="800" fill="var(--fg)">機械チェック (det = 決定論)</text>
+      <text x="74" y="239" font-size="11" fill="var(--muted)">白黒つくルールは全件を機械で確認 + 機密の前処理</text>
+      <text x="524" y="221" font-size="11" fill="var(--fg)" font-weight="700">FastAPI の前段 + Azure AI Language (PII)</text>
+      <text x="524" y="238" font-size="11" fill="var(--muted)">M0・M5 / AI を通さず確実に</text>
+
+      <!-- L3 用語・知識 -->
+      <rect x="58" y="260" width="450" height="50" rx="10" fill="var(--card)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="74" y="281" font-weight="800" fill="var(--fg)">用語・知識</text>
+      <text x="74" y="299" font-size="11" fill="var(--muted)">カンニングペーパー (用語集) と根拠文書 (ICH 等)</text>
+      <text x="524" y="281" font-size="11" fill="var(--fg)" font-weight="700">Blob の TSV + AI Search インデックス</text>
+      <text x="524" y="298" font-size="11" fill="var(--muted)">M1・M3 / 全部の層がここを参照する</text>
+
+      <!-- L2 翻訳エンジン -->
+      <rect x="58" y="320" width="450" height="50" rx="10" fill="var(--card)" stroke="var(--line)" stroke-width="2"/>
+      <text x="74" y="341" font-weight="800" fill="var(--fg)">翻訳エンジン</text>
+      <text x="74" y="359" font-size="11" fill="var(--muted)">最初の下書きを作る (用語集をここで効かせる)</text>
+      <text x="524" y="341" font-size="11" fill="var(--fg)" font-weight="700">Document Translation (+Custom Translator)</text>
+      <text x="524" y="358" font-size="11" fill="var(--muted)">M1・M2 / batch API + glossary 指定</text>
+
+      <!-- L1 基盤 -->
+      <rect x="58" y="380" width="450" height="50" rx="10" fill="var(--card)" stroke="var(--line)" stroke-width="2" stroke-dasharray="6 4"/>
+      <text x="74" y="401" font-weight="800" fill="var(--fg)">基盤</text>
+      <text x="74" y="419" font-size="11" fill="var(--muted)">鍵・権限・ファイル置き場・課金の土台</text>
+      <text x="524" y="401" font-size="11" fill="var(--fg)" font-weight="700">Foundry リソース + プロジェクト + Blob</text>
+      <text x="524" y="418" font-size="11" fill="var(--muted)">Day 1-2 で構築済 (aif-translation-dev-001)</text>
+    </g>
+  </svg>
+  </div>
+
+  <p class="lead" style="font-size:.95rem">
+    覚え方はシンプルです — <b>下3層 (基盤・翻訳・用語) はもうある or 今週作る。真ん中2層 (機械チェック・AI校閲) が今月の山。
+    上2層 (集約・承認) が仕上げ</b>。そして det / judg の線引き通り、「白黒つくことは機械の層で、判断だけ AI の層で、確定は人の層で」やります。
+  </p>
+
+  <h3 style="margin-top:2em">用語レイヤーの中身 — 訳語はこの3段ハシゴで決まる</h3>
+  <p>「estimand をどう訳すか」を AI の記憶に任せない、がこの仕組みの肝です。訳語は必ず次の順で決めます。
+     上の段で決まったら<b>そこで止まる</b> (下の段には行かない)。</p>
+  <ol class="ladder">
+    <li><b>完全一致 (表引き)</b> — 用語集にその語があれば、その訳を使う。おわり。<span class="stop">ここで9割決まるのが理想</span>。
+        用語集の中にも優先順位があります: <b>P0 顧客指定訳 &gt; P1/P2 社内確定訳 &gt; P3 公式定訳 (ICH 等)</b> の先勝ち。</li>
+    <li><b>意味検索 (ベクトル)</b> — 表になければ、似た用語・過去の対訳を AI Search で意味的に探して候補を出す。</li>
+    <li><b>狭い AI 判断</b> — それでも決まらない時だけ、候補を並べた上で AI に文脈判断させる。
+        確証がなければ訳を創作せず <b>⚠️要確認</b> を付けて人に回す (これも R-DEFER = 人へのエスカレーション)。</li>
+  </ol>
+
+  <h3>AI 校閲層の中身 — 4人の校閲役</h3>
+  <p>校閲役は1人の万能 AI ではなく、<b>担当を絞った4人</b>に分けます。全員同じ骨格 (作り方・指摘の出力形式は共通) で、
+     持たせる知識と着眼点だけが違う — だから1人目 (用語担当) を作り込めば、残り3人はコピーして差し替えるだけです。</p>
+  <div class="grid4">
+    <div class="cell"><b>L-Term (用語)</b><p>訳語が用語集・公式訳と一致しているか。最初に作る1人目 (M4)</p></div>
+    <div class="cell"><b>L-Style (文体)</b><p>「〜しなければならない」が must になっているか等、規制文書の文体・トーン</p></div>
+    <div class="cell"><b>L-Struct (構造)</b><p>見出し・表・番号・書式が原文と対応しているか</p></div>
+    <div class="cell"><b>L-Gov (規制)</b><p>ICH/PMDA の根拠と矛盾しないか。最重量級 — 使うモデルと処理場所を Director が判断中</p></div>
+  </div>
+
+  <div class="callout">
+    <b>なぜ用語集 (M1) から始めるのか。</b>
+    校閲 AI (M4) の方が面白そうに見えますが、用語集は<b>半日で動いて、いきなり7つの致命誤訳を消せる</b>最も安い一手です。
+    先に安く動くものを作ると、その結果が次に作るものの仕様を教えてくれます。
+    「まず動く現物、それから拡張」— このプロジェクト全体の進め方でもあります。
+  </div>
+
+  <!-- ============ アクションプラン ============ -->
+  <h2>アクションプラン — 誰が・何を・どこまでやったら完了か</h2>
+  <p>担当は<b>仮アサイン</b>です (確定は Director)。各タスクの詳細手順は
+     <code>brief-2026-07-05-foundry-handson-buildguide</code> の該当モジュール (M番号) にボタン単位で書いてあります。</p>
+
+  <div class="task now">
+    <h3>M1 — 用語集つき翻訳を動かす <span class="who e1">Eng1</span></h3>
+    <div class="meta">所要: 半日 / 今週最優先 / 前提: Day 1 環境 (aif-translation-dev-001)</div>
+    <ul class="actions">
+      <li>7誤訳 + シード20語の対訳を <b>タブ区切りの TSV</b> にする (大文字小文字は原文に合わせる)</li>
+      <li>Blob の glossary コンテナにアップロード</li>
+      <li>batch 翻訳 API を glossary 指定で実行 (PowerShell 例は buildguide M1-3)</li>
+      <li><b>api-version 2026-03-01</b> で図内テキスト翻訳も実測 (.docx をテスト投入、M1-4)</li>
+      <li>結果を run-log に記録 (何が直り、何が残ったか)</li>
+    </ul>
+    <div class="done"><b>完了条件</b>: target コンテナの訳文で、7誤訳がすべて用語集どおりに直っている</div>
+  </div>
+
+  <div class="task">
+    <h3>M0 — 機密情報の前処理 <span class="who e2">Eng2</span></h3>
+    <div class="meta">所要: 半日 / M4 の前までに</div>
+    <ul class="actions">
+      <li>治験ID・化合物コード・施設名の<b>正規表現リスト</b>を作る</li>
+      <li>置換 ⇄ 復元の可逆変換 (placeholder と対応表) を関数にする</li>
+      <li>Foundry の Playground で「Text PII redaction」(日本語) を試し、<b>何が拾えて何が拾えないか</b>をメモ</li>
+    </ul>
+    <div class="done"><b>完了条件</b>: サンプル文で 置換 → 復元 が完全に往復する</div>
+  </div>
+
+  <div class="task">
+    <h3>M2 — 対訳文数の見積り <span class="who e1">Eng1</span></h3>
+    <div class="meta">所要: 半日 / M1 の後</div>
+    <ul class="actions">
+      <li>ICH / 日本薬局方から<b>3文書だけ</b>対訳ペアを抽出してみる</li>
+      <li>1文書あたりの文数から全体を概算 (カスタム翻訳モデルの学習には最低 10,000 文が必要)</li>
+      <li>10,000 に届くか届かないかで、フル学習 or 辞書のみ学習の判断メモを書く</li>
+    </ul>
+    <div class="done"><b>完了条件</b>: 「フル学習する / しない」が数字を根拠に決まっている</div>
+  </div>
+
+  <div class="task">
+    <h3>M3 — 規制文書の検索インデックス <span class="who e2">Eng2</span></h3>
+    <div class="meta">所要: 半日 / M4 の前までに</div>
+    <ul class="actions">
+      <li>AI Search リソースを作成 (Japan East / Basic)</li>
+      <li>ICH E9(R1) など根拠文書を<b>版がわかるファイル名</b>で Blob に置く (PMDA 由来は参照のみ・学習禁止)</li>
+      <li>Import and vectorize ウィザードで RAG インデックスを作る (buildguide M3-3)</li>
+      <li>Search explorer で「intercurrent events の定義」を検索して当たりを確認</li>
+    </ul>
+    <div class="done"><b>完了条件</b>: 検索で E9(R1) の該当箇所が返ってくる</div>
+  </div>
+
+  <div class="task">
+    <h3>M4 — 最初の校閲 AI (用語チェック役) <span class="who e2">Eng2</span> <span class="who dir">Dir 検収</span></h3>
+    <div class="meta">所要: 1日 / M0・M3 の後 / このプロジェクトの中核</div>
+    <ul class="actions">
+      <li>Foundry ポータル (New Foundry) で agent「critic-lterm」を作成</li>
+      <li>Instructions (校閲の判断ルール) を貼る — 雛形は buildguide M4-2</li>
+      <li>Knowledge に用語集ファイルを登録 (file search)</li>
+      <li>指摘の出力形式 (JSON スキーマ) を固定 — 4人の校閲役で共通にする</li>
+      <li><b>テスト問題 (7誤訳) を流す</b>: 全部検出できるか、正しい訳し分けを誤検出しないか</li>
+    </ul>
+    <div class="done"><b>完了条件</b>: 7誤訳を 7/7 検出、かつ「control→対照/管理」のような正当な訳し分けを通す。Director が結果を確認して合格判定</div>
+  </div>
+
+  <div class="task">
+    <h3>M5 — 全体をつなぐ配管と本番リポジトリ <span class="who e1">Eng1</span> <span class="who e2">Eng2</span></h3>
+    <div class="meta">所要: 2-3日 / M4 合格後</div>
+    <ul class="actions">
+      <li><b>本番実装のリポジトリを新規作成</b> (現状の手作業構築を IaC = コード化された構成に写す)</li>
+      <li>パイプラインを組む: ルールの全件チェック → 機密前処理 → 校閲 AI → 指摘の集約 → 人の承認</li>
+      <li>エラー時の挙動を実装: 用語・規制の校閲が落ちたら止める、文体・書式なら「未検証」フラグで通す</li>
+      <li>監査ログ (誰がいつ何を承認したか) を追記専用で残す</li>
+    </ul>
+    <div class="done"><b>完了条件</b>: サンプル文書1本が「原文 → 承認 → 確定訳 + 記録」まで一気通貫で流れる</div>
+  </div>
+
+  <div class="task">
+    <h3>並行タスク — 判断と契約 <span class="who dir">Director</span></h3>
+    <div class="meta">構築と並行して</div>
+    <ul class="actions">
+      <li>Claude Opus の利用形態を決める (米国データゾーン固定 / API 直 / まず GPT-5 で開始) — M4 の規制チェック役を作る前に</li>
+      <li>次の受託契約に<b>翻訳メモリの帰属条項</b>を入れる (お客様由来の対訳は誰のものか、を先に決める)</li>
+      <li>known-error DB のレビューと、各モジュールの完了判定 (検収)</li>
+    </ul>
+  </div>
+
+  <!-- ============ 今週 ============ -->
+  <h2>今週やること (1人1つ)</h2>
+  <div class="tablewrap"><table>
+    <tr><th>担当</th><th>タスク</th><th>目安</th></tr>
+    <tr><td><span class="who e1">Eng1</span></td><td>M1: 用語集つき翻訳 + 図内翻訳の実測</td><td>半日</td></tr>
+    <tr><td><span class="who e2">Eng2</span></td><td>M0: 正規表現リスト + PII Playground の試験</td><td>半日</td></tr>
+    <tr><td><span class="who dir">Director</span></td><td>Opus 利用形態の判断材料整理 + TM 帰属条項の草案</td><td>2時間</td></tr>
+  </table></div>
+
+  <!-- ============ 困ったら ============ -->
+  <h2>詰まったときの早見表</h2>
+  <div class="tablewrap"><table>
+    <tr><th>症状</th><th>だいたいの原因と対処</th></tr>
+    <tr><td>用語集が効かない</td><td>TSV がカンマ区切りになっている / 大文字小文字の不一致。タブ区切り厳守で作り直す</td></tr>
+    <tr><td>翻訳ジョブが Failed</td><td>9割は Storage の権限 (ロール付与漏れ or 反映待ち)。5-10分待って再実行</td></tr>
+    <tr><td>agent の設定で権限エラー</td><td>project に Foundry User ロールが要る。Director に付与を依頼</td></tr>
+    <tr><td>file search が何も返さない</td><td>vector store が処理中 (in_progress)。completed になるまで待つ</td></tr>
+    <tr><td>それ以外</td><td>buildguide の「詰まりカタログ」→ 解決しなければ run-log に症状を書いて共有 (詰まりも資産)</td></tr>
+  </table></div>
+
+  <!-- ============ FAQ ============ -->
+  <h2>よくある質問</h2>
+  <dl class="qa">
+    <dt>Q. ふつうの翻訳ツール (DeepL など) じゃだめなの?</dt>
+    <dd>A. 一般文書なら十分です。ただ製薬の専門用語は汎用エンジンだと壊れます — 実測で estimand が「評価額」、
+        retained lots が「保留区画」になりました。しかも高性能な新機能を足しても<b>同じ誤訳が同じように再発</b>しました。
+        つまりモデルの性能ではなく、用語集とチェックの「層」で解く問題だ、というのが私たちの実証済みの結論です。</dd>
+    <dt>Q. AI が間違えたらどうするの?</dt>
+    <dd>A. 間違える前提で設計しています。ルールで機械チェック → AI 校閲が指摘 → 最後は人が承認、の三段構え。
+        人が承認するまではすべて「下書き」で、確定訳には必ず承認の記録が残ります。</dd>
+    <dt>Q. お客様の文書やデータはどこに行く?</dt>
+    <dd>A. 原則すべて日本リージョン (Japan East) 内で処理します。唯一の例外候補が海外リージョンの AI モデル利用で、
+        これは機密情報を最小化・置換した上で使うか、そもそも使わないかを Director が判断中です。
+        お客様由来の対訳を無断で共有資産に混ぜることはしません (由来タグで管理)。</dd>
+    <dt>Q. 私がこのプロジェクトで一番貢献できることは?</dt>
+    <dd>A. 「おかしな訳」を見つけたら known-error DB に記録することです。1件の誤訳の発見が、
+        校閲 AI のテスト問題になり、用語集の1行になり、将来の営業素材にもなります。小さく見えて一番積み上がる貢献です。</dd>
+  </dl>
+
+  <footer>
+    <p>生成: 2026-07-08 / Claude Code — 社内メンバー向け解説版。詳細な手順・戦略の正本は vault 側:</p>
+    <p>
+      <code>brief-2026-07-05-foundry-handson-buildguide</code> (ボタン単位の構築手順 M0-M5) /
+      <code>brief-2026-07-05-fable5-secondopinion-rd-translation</code> (設計レビュー) /
+      <code>2026-07-08-pharmatranslate-build-gtm-plan.html</code> (経営向け: 構築×外販 並走プラン)
+    </p>
+  </footer>
+
+</main>
+</body>
+</html>
