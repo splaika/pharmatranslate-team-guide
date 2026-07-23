@@ -71,6 +71,14 @@
   .ladder li .stop{color:var(--accent);font-weight:700}
   footer{color:var(--muted);font-size:.84rem;margin-top:56px;border-top:1px solid var(--line);padding-top:18px}
   footer code{background:var(--card);border:1px solid var(--line);padding:1px 6px;border-radius:6px;font-size:.8rem}
+  a{color:var(--accent)}
+  .linkcards{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:18px 0}
+  .linkcards a{display:block;text-decoration:none;color:inherit;background:var(--card);
+    border:1px solid var(--line);border-radius:var(--radius);padding:15px 17px}
+  .linkcards a:hover{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+  .linkcards b{display:block;margin-bottom:.25em;color:var(--fg)}
+  .linkcards p{margin:0;font-size:.86rem;color:var(--muted)}
+  .linkcards .u{display:block;margin-top:.55em;font-size:.74rem;color:var(--accent);word-break:break-all}
 </style>
 </head>
 <body>
@@ -407,6 +415,27 @@
     <dd>A. 「おかしな訳」を見つけたら known-error DB に記録することです。1件の誤訳の発見が、
         校閲 AI のテスト問題になり、用語集の1行になり、将来の営業素材にもなります。小さく見えて一番積み上がる貢献です。</dd>
   </dl>
+
+  <!-- ============ もっと深く ============ -->
+  <h2>もっと深く見る — 設計 / 動く画面 / 実装</h2>
+  <p>このページは要約です。前提や設計判断まで踏み込みたい人、実際の画面や作り方を見たい人は下から。</p>
+  <div class="linkcards">
+    <a href="https://splaika.github.io/foundry-translation-workflow/">
+      <b>設計サマリー（正本）</b>
+      <p>翻訳ワークフロー全体の設計。校閲・承認アプリの設計は §10-e。</p>
+      <span class="u">splaika.github.io/foundry-translation-workflow</span>
+    </a>
+    <a href="https://splaika.github.io/foundry-translation-workflow/mockups/review-app.html">
+      <b>校閲・承認画面のモック（動く）</b>
+      <p>対訳ドキュメント・QE 帯フィルタ・承認/修正/却下を単体で開けるモック。</p>
+      <span class="u">…/mockups/review-app.html</span>
+    </a>
+    <a href="https://github.com/splaika/foundry-translation-workflow/tree/main/review-app">
+      <b>校閲アプリの実装＋構築手順</b>
+      <p>React スターター実装と BUILD_GUIDE（M0–M6）。開発者向け。</p>
+      <span class="u">github.com/splaika/foundry-translation-workflow · review-app/</span>
+    </a>
+  </div>
 
   <footer>
     <p>生成: 2026-07-08 / Claude Code — 社内メンバー向け解説版。詳細な手順・戦略の正本は vault 側:</p>
